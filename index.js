@@ -12,7 +12,7 @@ const Blog = require("./models/Blog")
 const Comment=require("./models/Comment")
 app.use(cors())
 app.use(express.json())
-const transpoter=nodemailer.createTransport({
+const transporter=nodemailer.createTransport({
     service:"gmail",
     auth:{
         user:process.env.EMAIL,
@@ -61,9 +61,9 @@ app.get('/', function (req, res) {
     res.send('Hello World')
 })
 
-const sendVerificationEmail=(email,token)=>{
+const sendVerificationEmail=async(email,token)=>{
     
-    const verificationLink=`${process.env.BASE_URL}/verify/${token}`
+    const verificationLink=`${process.env.BASE_URL}/verify?token=${token}`
     const mailOptions={
         from:process.env.EMAIL,
         to:email,
@@ -71,7 +71,7 @@ const sendVerificationEmail=(email,token)=>{
         text:`Click the Following link to verify Your Email: ${verificationLink}`
     }
 
-    transpoter.sendMail(mailOptions)
+    await transporter.sendMail(mailOptions)
 
 }
 
@@ -88,17 +88,19 @@ app.post("/register", async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10)
-    const id=uuid.v4()
+    
 
     try {
-        await User.create({
+        const newUser=await User.create({
             username,
             email,
             password: hashedPassword,
-            verificationToken:id
+           
         })
+        const payload={email:newUser.email};
+        const token=jwt.sign(payload,process.env.EMAIL_VERIFICATION_TOKEN,{expiresIn:"3m"})
         
-        sendVerificationEmail(email,id)
+        sendVerificationEmail(email,token)
         res.status(201).send({ success_msg: "User Created Successfully. Please check your email to verify your account."})
     }
     catch (error) {
@@ -108,16 +110,19 @@ app.post("/register", async (req, res) => {
 
 })
 
-app.get("/verify/:token",async(req,res)=>{
-    const {token}=req.params
+app.get("/verify",async(req,res)=>{
+    const {token}=req.query
     try{
-        const user=await User.findOne({verificationToken:token})
+        const decoded=jwt.verify(token,process.env.EMAIL_VERIFICATION_TOKEN)
+        const user=await User.findOne({email:decoded.email})
         if(!user){
-            res.status(400).send({error_msg:"Invalid Token"})
+            return res.status(400).send({error_msg:"Invalid Token"})
+        }
+
+        if (user.isVerified) {
+            return res.status(400).send({ error_msg: "Email already verified" });
         }
         user.isVerified=true;
-        user.verificationToken = null; 
-
         await user.save(); // ✅ Saves the changes
 
         res.status(200).send({success_msg:"Email Verified Successfully! You can now log in."})
@@ -142,7 +147,7 @@ app.post("/login", async (req, res) => {
             return res.status(401).send({ error_msg: "Password is not correct" })
         }
         const payload = { userId: existingUser._id, username: existingUser.username, role: existingUser.role,isVerified:existingUser.isVerified }
-        const jwtToken = jwt.sign(payload, process.env.JWT_SECRET)
+        const jwtToken = jwt.sign(payload, process.env.JWT_SECRET,{expiresIn:"3d"})
         return res.status(200).send({ success_msg: "User Logged In Successfully", jwtToken })
     }
     catch (error) {

@@ -1,0 +1,110 @@
+GET http://localhost:3004/
+###
+POST http://localhost:3004/register 
+Content-Type: application/json
+
+{
+    "username":"umar",
+    "email":"umarahamad320@gmail.com",
+    "password":"1234"
+}
+
+###
+POST http://localhost:3004/login 
+Content-Type: application/json
+
+{
+    "username":"ali",
+    "password":"1234"
+}
+
+###
+POST http://localhost:3004/login 
+Content-Type: application/json
+
+{
+    "username":"sanni",
+    "password":"8712717318"
+}
+
+###
+
+POST http://localhost:3004/create
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2MyZTcwOWNlMjJmZjk0ZDBjMDRjMDYiLCJ1c2VybmFtZSI6InNhbm5pIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzQwODk1MTgyfQ.ehWucUANV1jNMmNLu1B5stK89flLU5fBJPbZ3pMLvFU
+
+{
+    "title":"Dummy",
+    "content":"Dummy"
+}
+
+
+###
+DELETE http://localhost:3004/delete-blog
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2MyZTcwOWNlMjJmZjk0ZDBjMDRjMDYiLCJ1c2VybmFtZSI6InNhbm5pIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzQwODMwMjQ5fQ.OZ6c6nCk5QEGuEp0qu923wx0M6mocpmb8DG4NpxK-9o
+
+{
+    "id":"67c2f68f5b0d7307650377cd"
+}
+
+###
+PUT http://localhost:3004/assign-blog/67c3f3f53eb4b9244f131d6a
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2MyZTcwOWNlMjJmZjk0ZDBjMDRjMDYiLCJ1c2VybmFtZSI6InNhbm5pIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzQwODk1MTgyfQ.ehWucUANV1jNMmNLu1B5stK89flLU5fBJPbZ3pMLvFU
+
+{
+    "editorId":"67c2e6c1fd54fc56c3f06fa1"
+}
+
+###
+###
+PUT http://localhost:3004/blog/67c3f3f53eb4b9244f131d6a
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2MyZTcwOWNlMjJmZjk0ZDBjMDRjMDYiLCJ1c2VybmFtZSI6InNhbm5pIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzQwODk1MTgyfQ.ehWucUANV1jNMmNLu1B5stK89flLU5fBJPbZ3pMLvFU
+
+{
+    "title":"Editor Can Change The Content"
+}
+
+###
+###
+PUT http://localhost:3004/blog/67c3f3f53eb4b9244f131d6a
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2MyZTZjMWZkNTRmYzU2YzNmMDZmYTEiLCJ1c2VybmFtZSI6IlJhaHVsIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3NDA4OTU3NDh9.j2vzQ9O3uqvejuZK3MvldC7kN7kb_TZ_stxQlRzD1ow
+
+{
+    "content":"Yes I am Rahul An Editor Changed the Content. Please checked it in the mongodb database"
+}
+
+
+###
+GET http://localhost:3004/blogs 
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2MyZTZjMWZkNTRmYzU2YzNmMDZmYTEiLCJ1c2VybmFtZSI6IlJhaHVsIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3NDA5MDA2NDJ9.ExHAOrYKwNEPogXpMl4jizHKMSBfBWGs8eBm63QBXvw
+
+
+###
+POST http://localhost:3004/comment/67c3f3f53eb4b9244f131d6a
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2MyZTZjMWZkNTRmYzU2YzNmMDZmYTEiLCJ1c2VybmFtZSI6IlJhaHVsIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3NDA5MTEwMTV9.nBXiDt5XiQJ-cpuOetpr6fWjv4_gF5a24uIXJkA9Ex0
+
+{
+    "userId":"67c2e6c1fd54fc56c3f06fa1",
+    "text":"This is the comment to test the network call"
+}
+
+###
+DELETE http://localhost:3004/comment/67c431b61effe89e1a0c17e8
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2MyZTZjMWZkNTRmYzU2YzNmMDZmYTEiLCJ1c2VybmFtZSI6IlJhaHVsIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3NDA5MTIzNjN9.3zJrlGz3EOmzNlagRS5psavfq0b3i1E8oOrqWFsEKdw
+
+
+###
+
+GET http://localhost:3004/data
+Content-Type: application/json
+
+###
+GET http://localhost:3004/restaurants
+Content-Type: application/json

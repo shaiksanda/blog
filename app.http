@@ -4,8 +4,8 @@ POST http://localhost:3004/register
 Content-Type: application/json
 
 {
-    "username":"umar",
-    "email":"umarahamad320@gmail.com",
+    "username":"ali",
+    "email":"aliinspires7@gmail.com",
     "password":"1234"
 }
 
